@@ -1,5 +1,110 @@
 # Cloud Engineering Technical Assessment
 
+
+---
+
+## Setup and Deployment Instructions
+
+### Prerequisites
+1. **AWS Account**: Ensure you have an AWS account with the necessary permissions.
+2. **Terraform**: Install Terraform on your local machine.
+3. **Docker**: Install Docker to build and test the container locally.
+4. **GitHub Repository**: Fork or clone this repository.
+
+### Step 1: Clone the Repository
+git clone https://github.com/AlexOOP/DockerizeFlask.git
+cd DockerizeFlask
+
+### Step 2: Set Up AWS Credentials
+1. Create an IAM user with the following permissions:
+   - AmazonEC2FullAccess
+   - AmazonECS_FullAccess
+   - AmazonECRFullAccess
+
+### 2. Store the AWS credentials as GitHub secrets:
+   - AWS_ACCESS_KEY_ID
+   - AWS_SECRET_ACCESS_KEY
+   - AWS_REGION (e.g., eu-west-2)
+   - ECR_REPOSITORY (e.g., lockwood-flask-app)
+   - ECS_CLUSTER (e.g., lockwood-cluster)
+   - ECS_SERVICE (e.g., lockwood-service)
+
+### Step 3: Build and Test the Docker Image Locally
+1. Build the Docker image:
+   docker build -t flask-app ./app
+2. Run the container locally:
+   docker run -d -p 5000:5000 --name flask-container flask-app
+3. Test the application:
+   curl http://localhost:5000
+
+### Step 4: Deploy Infrastructure with Terraform
+1. Navigate to the "terraform/" directory:
+   cd terraform
+2. Initialize Terraform:
+   terraform init
+3. Plan and apply the Terraform configuration:
+   terraform plan
+   terraform apply
+
+### Step 5: Set Up CI/CD Pipeline
+
+1. Push changes to the "main" branch of your GitHub repository.
+2. The GitHub Actions workflow will:
+   - Build and push the Docker image to Amazon ECR.
+   - Deploy the updated image to ECS.
+
+####################################################
+
+## Potential Improvements for a Production Environment
+
+1. Add an Application Load Balancer (ALB):
+    Distribute traffic across multiple ECS tasks.
+    Enable HTTPS using an ACM certificate.
+
+2. Enable Auto Scaling:
+    Configure ECS service auto-scaling based on CPU/memory usage or request count.
+
+3. Use Secrets Management:
+    Store sensitive data (e.g., database credentials) in AWS Secrets Manager or Parameter Store.
+
+4. Enable CloudWatch Logs:
+    Stream container logs to CloudWatch for centralized logging and monitoring.
+
+5. mplement Blue/Green Deployments:
+    Use AWS CodeDeploy to minimize downtime during deployments.
+
+6. Optimize Docker Image:
+    Regularly update base images to include security patches.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Overview
 This assessment evaluates your proficiency with Docker, Terraform, AWS (specifically ECS), and CI/CD pipelines. You'll be containerizing a simple Python application and deploying it to AWS ECS using Terraform. If you are not familiar with any of the technologies, feel free to complete as much as you can.
 
